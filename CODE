@@ -1,0 +1,42 @@
+#Hassan Javaid 
+#Internship for IoT and Computer Vision 
+#Task number 01 
+#Optical Character Recognition
+
+
+
+!pip install opencv-python pytesseract
+!pip install pytesseract
+import cv2
+import pytesseract
+from matplotlib import pyplot as plt
+import pytesseract 
+
+pytesseract.pytesseract.tesseract_cmd = r"C:\\Users\\hjava\\Desktop\\tesseract"
+
+#image path 
+image_path = r"C:\Users\hjava\Desktop\text-image.png"  
+image = cv2.imread(image_path)
+
+# Converting image to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# Apply some preprocessing
+# For printed text, use thresholding
+_, thresh_image = cv2.threshold(gray_image, 150, 255, cv2.THRESH_BINARY_INV)
+
+# For handwritten text, use adaptive thresholding
+# thresh_image = cv2.adaptiveThreshold(gray_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+#cv2.THRESH_BINARY, 11, 2)
+
+# Use pytesseract to extract text
+text = pytesseract.image_to_string(thresh_image, lang='eng')
+
+# Print the extracted text
+print("Extracted Text:")
+print(text)
+
+# Display the image
+plt.imshow(cv2.cvtColor(thresh_image, cv2.COLOR_BGR2RGB))
+plt.title('Processed Image')
+plt.show()
